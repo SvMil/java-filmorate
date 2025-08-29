@@ -15,13 +15,14 @@ import java.util.Map;
 @RequestMapping("/films")
 public class FilmController {
     private final Map<Long, Film> films = new HashMap<>();
+
     @GetMapping
-    public Collection<Film> findAll(){
+    public Collection<Film> findAll() {
         return films.values();
     }
 
     @PostMapping
-    public Film  create(@RequestBody Film film) {
+    public Film create(@RequestBody Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
             throw new ConditionsNotMetException("Название не может быть пустым");
         }
@@ -30,7 +31,8 @@ public class FilmController {
         }
         if (film.getDuration() <= 0) {
             throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
-        }if (film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
+        }
+        if (film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
             throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
         }
 
@@ -50,7 +52,6 @@ public class FilmController {
     }
 
 
-
     @PutMapping
     public Film update(@RequestBody Film newFilm) {
         // проверяем необходимые условия
@@ -67,7 +68,8 @@ public class FilmController {
             }
             if (newFilm.getDuration() <= 0) {
                 throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
-            }if (newFilm.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
+            }
+            if (newFilm.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
                 throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
             }
             oldFilm.setName(newFilm.getName());
