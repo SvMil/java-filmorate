@@ -24,7 +24,6 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody User user) {
-        // проверяем выполнение необходимых условий
         if (user.getLogin() == null || user.getLogin().isBlank()) {
             throw new ConditionsNotMetException("Логин не может быть пустым");
         }
