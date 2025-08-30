@@ -29,7 +29,7 @@ public class FilmController {
         return film;
     }
 
-    private void validateFilm (Film film){
+    private void validateFilm(Film film) {
         if (film.getName() == null || film.getName().isBlank()) {
             throw new ConditionsNotMetException("Название не может быть пустым");
         }
