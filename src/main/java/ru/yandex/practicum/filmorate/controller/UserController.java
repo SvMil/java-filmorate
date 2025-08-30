@@ -30,7 +30,7 @@ public class UserController {
         return user;
     }
 
-    private void validateUser(User user){
+    private void validateUser(User user) {
         if (user.getLogin() == null || user.getLogin().isBlank()) {
             throw new ConditionsNotMetException("Логин не может быть пустым");
         }
