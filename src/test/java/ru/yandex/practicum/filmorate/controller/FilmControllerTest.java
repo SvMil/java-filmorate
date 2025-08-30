@@ -22,7 +22,6 @@ public class FilmControllerTest {
         System.out.println(filmController.findAll());
     }
 
-
     @Test
     public void updateFilm() {
 

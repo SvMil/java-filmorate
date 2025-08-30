@@ -9,7 +9,7 @@ public class UsersControllerTest {
     UserController userController = new UserController();
 
     @Test
-    public void createFilm() {
+    public void createUser() {
 
         User user = User.builder()
                 .name("Александр")
@@ -21,9 +21,8 @@ public class UsersControllerTest {
         System.out.println(userController.findAll());
     }
 
-
     @Test
-    public void updateFilm() {
+    public void updateUser() {
 
         User user = User.builder()
                 .name("Александр")
