@@ -1,7 +1,9 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.exception.*;
 
 
 import java.time.LocalDate;
@@ -20,6 +22,23 @@ public class FilmControllerTest {
                 .build();
         filmController.create(film);
         System.out.println(filmController.findAll());
+    }
+
+    @Test
+    public void createFilm2() {
+        ConditionsNotMetException thrown = Assertions.assertThrows(ConditionsNotMetException.class, () -> {
+
+        Film film = Film.builder()
+                .name("7Gckd5wENpqT5bD")
+                .description("dYSugwsQJiqANx5a9v7eJsu1Zc3FDZ4SWa16KvS29H98MwKbzo")
+                .duration(109)
+                .releaseDate(LocalDate.of(1972,12,11))
+                .build();
+        filmController.create(film);
+        System.out.println(filmController.findAll());
+        });
+
+        Assertions.assertEquals("Дата релиза должна быть не раньше 28 декабря 1895 года", thrown.getMessage());
     }
 
     @Test

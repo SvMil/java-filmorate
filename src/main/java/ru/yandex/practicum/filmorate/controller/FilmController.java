@@ -23,10 +23,15 @@ public class FilmController {
 
     @PostMapping
     public Film create(@RequestBody Film film) {
-        validateFilm(film);
-        film.setId(getNextId());
-        films.put(film.getId(), film);
-        return film;
+        try {
+            validateFilm(film);
+            film.setId(getNextId());
+            films.put(film.getId(), film);
+            return film;
+        }catch (RuntimeException e) {
+            log.error("Ошибка в методе getFilms: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 
     private void validateFilm(Film film) {
