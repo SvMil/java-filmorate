@@ -39,7 +39,7 @@ public class FilmController {
         if (film.getDuration() <= 0) {
             throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
         }
-        if (film.getReleaseDate().isBefore(LocalDate.of(1985,12,28))) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
             throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
         }
     }
