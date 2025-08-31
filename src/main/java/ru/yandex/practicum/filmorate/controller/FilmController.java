@@ -23,7 +23,18 @@ public class FilmController {
 
     @PostMapping
     public Film create(@RequestBody Film film) {
-            validateFilm(film);
+        if (film.getName() == null || film.getName().isBlank()) {
+            throw new ConditionsNotMetException("Название не может быть пустым");
+        }
+        if (film.getDescription().length() > 200) {
+            throw new ConditionsNotMetException("Описание не может быть длинее 200 символов");
+        }
+        if (film.getDuration() <= 0) {
+            throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
+        }
+        if (film.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
+            throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
+        }
             film.setId(getNextId());
             films.put(film.getId(), film);
             return film;
@@ -62,7 +73,18 @@ public class FilmController {
         }
         if (films.containsKey(newFilm.getId())) {
             Film oldFilm = films.get(newFilm.getId());
-            validateFilm(newFilm);
+            if (newFilm.getName() == null || newFilm.getName().isBlank()) {
+                throw new ConditionsNotMetException("Название не может быть пустым");
+            }
+            if (newFilm.getDescription().length() > 200) {
+                throw new ConditionsNotMetException("Описание не может быть длинее 200 символов");
+            }
+            if (newFilm.getDuration() <= 0) {
+                throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
+            }
+            if (newFilm.getReleaseDate().isBefore(LocalDate.parse("1985-12-28"))) {
+                throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
+            }
             oldFilm.setName(newFilm.getName());
             oldFilm.setDescription(newFilm.getDescription());
             oldFilm.setDuration(newFilm.getDuration());
