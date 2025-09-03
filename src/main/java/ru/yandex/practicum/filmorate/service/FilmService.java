@@ -24,7 +24,7 @@ public class FilmService {
     }
 
     public Film create(Film film) {
-        log.info("Добавлен новый фильм с id "+ film.getId());
+        log.info("Добавлен новый фильм с id " + film.getId());
         return filmStorage.create(film);
     }
 
@@ -39,7 +39,7 @@ public class FilmService {
 
     public void deleteFilm(long filmId) {
         filmStorage.deleteFilm(filmId);
-        log.info("Фильм с id "+ filmId + " был удалён");
+        log.info("Фильм с id " + filmId + " был удалён");
 
     }
 
