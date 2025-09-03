@@ -53,6 +53,7 @@ public class UserService {
         log.info("Получение списка пользователей");
         return Collections.unmodifiableCollection(userStorage.getUsers().values());
     }
+
     public User getUserById(long id) {
         User user = userStorage.getUserById(id);
         if (user == null) {
