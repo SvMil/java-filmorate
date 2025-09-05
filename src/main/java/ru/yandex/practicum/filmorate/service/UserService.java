@@ -67,7 +67,8 @@ public class UserService {
     public void addFriend(long userId, long friendId) {
         if (userStorage.getUserById(userId) == null) {
             throw new NotFoundException("Пользователь не найден");
-        }  if (userStorage.getUserById(friendId) == null) {
+        }
+        if (userStorage.getUserById(friendId) == null) {
             throw new NotFoundException("Пользователь не найден");
         }
         userStorage.addFriend(userId, friendId);
