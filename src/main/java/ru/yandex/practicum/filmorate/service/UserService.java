@@ -89,6 +89,9 @@ public class UserService {
     }
 
     public List<User> getAllFriends(long userId) {
+        if (userStorage.getUserById(userId) == null) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         return userStorage.getAllFriends(userId);
     }
 
