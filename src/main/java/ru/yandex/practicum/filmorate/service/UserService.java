@@ -3,11 +3,13 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.model.*;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +33,7 @@ public class UserService {
                 throw new ValidationException();
             }
         }
+        validateUser(user);
         log.info("Добавлен новый пользователь c {} login {} ", user.getName(), user.getLogin());
         return userStorage.create(user);
     }
@@ -40,6 +43,7 @@ public class UserService {
             log.warn("Невозможно обновить пользователя");
             throw new NotFoundException("Пользователь не найден");
         }
+        validateUser(user);
         log.info("Пользователь {} с id {} обновлён", user.getName(), user.getId());
         return userStorage.update(user);
     }
@@ -93,6 +97,24 @@ public class UserService {
             throw new NotFoundException("Пользователь не найден");
         }
         return userStorage.getAllFriends(userId);
+    }
+
+    private void validateUser(User user) {
+        if (user.getLogin() == null || user.getLogin().isBlank()) {
+            throw new ConditionsNotMetException("Логин не может быть пустым");
+        }
+        if (user.getEmail() == null || user.getEmail().isBlank()) {
+            throw new ConditionsNotMetException("Почта не может быть пустой");
+        }
+        if (!user.getEmail().contains("@")) {
+            throw new ConditionsNotMetException("Почта должна содержать символ @");
+        }
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+        if (user.getBirthday().isAfter(LocalDate.now())) {
+            throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
+        }
     }
 
 }

@@ -2,10 +2,8 @@ package ru.yandex.practicum.filmorate.storage.user;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Component("inMemoryUserStorage")
@@ -15,28 +13,9 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User create(User user) {
-        validateUser(user);
         user.setId(getNextId());
         users.put(user.getId(), user);
         return user;
-    }
-
-    private void validateUser(User user) {
-        if (user.getLogin() == null || user.getLogin().isBlank()) {
-            throw new ConditionsNotMetException("Логин не может быть пустым");
-        }
-        if (user.getEmail() == null || user.getEmail().isBlank()) {
-            throw new ConditionsNotMetException("Почта не может быть пустой");
-        }
-        if (!user.getEmail().contains("@")) {
-            throw new ConditionsNotMetException("Почта должна содержать символ @");
-        }
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
-        if (user.getBirthday().isAfter(LocalDate.now())) {
-            throw new ConditionsNotMetException("Дата рождения не может быть в будущем");
-        }
     }
 
     private long getNextId() {
@@ -51,7 +30,6 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User update(User newUser) {
         User oldUser = users.get(newUser.getId());
-        validateUser(newUser);
         oldUser.setName(newUser.getName());
         oldUser.setEmail(newUser.getEmail());
         oldUser.setBirthday(newUser.getBirthday());
