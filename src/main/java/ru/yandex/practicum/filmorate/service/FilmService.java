@@ -3,10 +3,12 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Collection;
@@ -24,6 +26,7 @@ public class FilmService {
     }
 
     public Film create(Film film) {
+        validateFilm(film);
         log.info("Добавлен новый фильм с id " + film.getId());
         return filmStorage.create(film);
     }
@@ -33,6 +36,7 @@ public class FilmService {
             log.warn("Невозможно обновить фильм");
             throw new NotFoundException("Фильм не найден");
         }
+        validateFilm(film);
         log.info("Фильм с id " + film.getId() + " был обновлён");
         return filmStorage.update(film);
     }
@@ -73,5 +77,20 @@ public class FilmService {
                 .sorted((f1, f2) -> f2.getLikes().size() - f1.getLikes().size())
                 .limit(count)
                 .collect(Collectors.toList());
+    }
+
+    private void validateFilm(Film film) {
+        if (film.getName() == null || film.getName().isBlank()) {
+            throw new ConditionsNotMetException("Название не может быть пустым");
+        }
+        if (film.getDescription().length() > 200) {
+            throw new ConditionsNotMetException("Описание не может быть длинее 200 символов");
+        }
+        if (film.getDuration() <= 0) {
+            throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
+        }
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
+            throw new ConditionsNotMetException("Дата релиза должна быть не раньше 28 декабря 1895 года");
+        }
     }
 }
