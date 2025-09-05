@@ -80,6 +80,12 @@ public class FilmService {
     }
 
     public void deleteLike(long filmId, long userId) {
+        if (filmStorage.getFilmById(filmId) == null) {
+            throw new NotFoundException("Фильм не найден");
+        }
+        if (userStorage.getUserById(userId) == null) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         filmStorage.deleteLike(filmId, userId);
         log.info("Лайк пользователя с id {} фильму с id {} удалён", userId, filmId);
     }
