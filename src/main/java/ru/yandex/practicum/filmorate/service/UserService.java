@@ -73,11 +73,17 @@ public class UserService {
     }
 
     public void removeFromFriends(long userId, long friendId) {
+        if ((userStorage.getUserById(userId) == null) || (userStorage.getUserById(friendId) == null)) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         userStorage.removeFromFriends(userId, friendId);
         log.info("Пользователи с id {} и {} теперь не являются друзьями", userId, friendId);
     }
 
     public List<User> getCommonFriends(long userId, long otherUserId) {
+        if ((userStorage.getUserById(userId) == null) || (userStorage.getUserById(otherUserId) == null)) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         log.info("Получение списка общих друзей пользователей с id {} и с id {} ", userId, otherUserId);
         return userStorage.getCommonFriends(userId, otherUserId);
     }
