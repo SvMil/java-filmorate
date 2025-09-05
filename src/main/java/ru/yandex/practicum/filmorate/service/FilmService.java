@@ -21,11 +21,12 @@ import java.util.Collections;
 public class FilmService {
 
     private final FilmStorage filmStorage;
-    private final UserStorage userStorage = new InMemoryUserStorage();
+    private final UserStorage userStorage;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage) {
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
         this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
     }
 
     public Film create(Film film) {
@@ -80,8 +81,14 @@ public class FilmService {
     }
 
     public void deleteLike(long filmId, long userId) {
-        if ((filmStorage.getFilmById(filmId) == null) || (userStorage.getUserById(userId) == null)) {
+        if (filmStorage.getFilmById(filmId) == null) {
             throw new NotFoundException("Фильм не найден");
+        }
+        if (userStorage.getUserById(userId) == null) {
+            throw new NotFoundException("Пользователь не найден");
+        }
+        if (!filmStorage.getFilmById(filmId).getLikes().contains(userId)) {
+            throw new NotFoundException("Лайк пользователя не найден");
         }
         filmStorage.deleteLike(filmId, userId);
         log.info("Лайк пользователя с id {} фильму с id {} удалён", userId, filmId);
