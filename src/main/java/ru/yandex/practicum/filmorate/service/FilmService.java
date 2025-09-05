@@ -7,6 +7,8 @@ import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Collections;
 public class FilmService {
 
     private final FilmStorage filmStorage;
+    private final UserStorage userStorage = new InMemoryUserStorage();
 
     @Autowired
     public FilmService(FilmStorage filmStorage) {
@@ -42,6 +45,10 @@ public class FilmService {
     }
 
     public void deleteFilm(long filmId) {
+        if (filmStorage.getFilmById(filmId) == null) {
+            log.warn("Невозможно удалить фильм");
+            throw new NotFoundException("Фильм не найден");
+        }
         filmStorage.deleteFilm(filmId);
         log.info("Фильм с id " + filmId + " был удалён");
 
@@ -62,6 +69,12 @@ public class FilmService {
     }
 
     public void addLike(long filmId, long userId) {
+        if (filmStorage.getFilmById(filmId) == null) {
+            throw new NotFoundException("Фильм не найден");
+        }
+        if (userStorage.getUserById(userId) == null) {
+            throw new NotFoundException("Пользователь не найден");
+        }
         filmStorage.addLike(filmId, userId);
         log.info("Пользователь с id {} поставил фильму с id {} лайк", userId, filmId);
     }
