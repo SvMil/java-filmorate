@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Component("GenreStorage")
 public interface GenreStorage {
+
     Optional<Genre> getGenreById(Integer id);
     Map<Integer, Genre> getAllGenres();
 
