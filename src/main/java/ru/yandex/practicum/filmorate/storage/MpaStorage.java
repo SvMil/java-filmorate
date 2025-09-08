@@ -8,8 +8,10 @@ import java.util.Map;
 
 @Component("MpaStorage")
 public interface MpaStorage {
-        Optional<Mpa> getMpaById(Integer id);
-        Map<Integer, Mpa> getAllMpa();
+
+    Optional<Mpa> getMpaById(Integer id);
+
+    Map<Integer, Mpa> getAllMpa();
 
     }
 
