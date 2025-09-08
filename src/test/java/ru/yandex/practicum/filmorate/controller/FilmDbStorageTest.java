@@ -34,7 +34,7 @@ class FilmDbStorageTest {
                 .birthday(LocalDate.of(1985, 10, 17))
                 .build());
 
-        Optional <User> userOptional = Optional.ofNullable(userDbStorage.getUserById(1));
+        Optional<User> userOptional = Optional.ofNullable(userDbStorage.getUserById(1));
 
         assertThat(userOptional)
                 .isPresent()
@@ -71,10 +71,10 @@ class FilmDbStorageTest {
         filmDbStorage.addLike(2, 1);
         filmDbStorage.addLike(2, 2);
 
-        System.out.println( filmDbStorage.getLikesOfFilm(2L));
+        System.out.println(filmDbStorage.getLikesOfFilm(2L));
 
-        System.out.println( filmDbStorage.getFilms());
+        System.out.println(filmDbStorage.getFilms());
 
-        System.out.println( userDbStorage.getUsers());
+        System.out.println(userDbStorage.getUsers());
     }
 }
