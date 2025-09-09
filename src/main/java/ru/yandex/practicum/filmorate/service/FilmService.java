@@ -109,8 +109,10 @@ public class FilmService {
         if (film.getDescription().length() > 200) {
             throw new ConditionsNotMetException("Описание не может быть длинее 200 символов");
         }
-        if (film.getMpa().getId() > 5) {
-            throw new ConditionsNotMetException("Id рейтинга не может быть больше 5");
+        if (film.getMpa() != null) {
+            if (film.getMpa().getId() > 5) {
+                throw new ConditionsNotMetException("Id рейтинга не может быть больше 5");
+            }
         }
         if (film.getDuration() <= 0) {
             throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
