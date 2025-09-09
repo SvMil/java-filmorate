@@ -23,7 +23,7 @@ public class GenreService {
         return Collections.unmodifiableCollection(genreStorage.getAllGenres().values());
     }
 
-    public Genre getGenreById(int id){
+    public Genre getGenreById(int id) {
         if (genreStorage.getGenreById(id) == null) {
             log.warn("Значение жанра с id {} не найдено", id);
             throw new RuntimeException("Значение рейтинга не найдено");
