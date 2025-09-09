@@ -20,7 +20,7 @@ public class MpaService {
         this.mpaStorage = mpaStorage;
     }
 
-    public Mpa getMpaById(int id) {
+    public Mpa getMpaById(Integer id) {
         if (mpaStorage.getMpaById(id) == null) {
             log.warn("Значение рейтинга с id {} не найдено", id);
             throw new ConditionsNotMetException("Значение рейтинга не найдено");
