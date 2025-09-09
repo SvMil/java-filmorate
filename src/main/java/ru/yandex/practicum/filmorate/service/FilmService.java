@@ -111,7 +111,7 @@ public class FilmService {
         }
         if (film.getMpa() != null) {
             if (film.getMpa().getId() > 5) {
-                throw new ConditionsNotMetException("Id рейтинга не может быть больше 5");
+                throw new NotFoundException("Id рейтинга не может быть больше 5");
             }
         }
         if (film.getDuration() <= 0) {
