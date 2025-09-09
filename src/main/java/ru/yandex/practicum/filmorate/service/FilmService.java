@@ -5,15 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.ConditionsNotMetException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Collection;
-import java.util.Collections;
 
 @Slf4j
 @Service
@@ -113,6 +112,15 @@ public class FilmService {
             if (film.getMpa().getId() > 5) {
                 throw new NotFoundException("Id рейтинга не может быть больше 5");
             }
+        }
+        if (film.getGenres() != null) {
+            Set<Genre> genres = film.getGenres();
+            for (Genre genre : genres) {
+                if (genre.getId() > 6) {
+                    throw new NotFoundException("Id жанра не может быть больше 6");
+                }
+            }
+
         }
         if (film.getDuration() <= 0) {
             throw new ConditionsNotMetException("Продолжительность фильма должна быть положительным числом.");
