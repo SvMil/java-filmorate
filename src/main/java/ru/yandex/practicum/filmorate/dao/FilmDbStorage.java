@@ -173,7 +173,6 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public void addLike(long filmId, long userId) {
         Film film = getFilmById(filmId);
-       // UserDbStorage user = userStorage.getUserById(userId);
         try {
             String querySql = "INSERT INTO FILM_LIKE (FILM_ID, USER_ID) VALUES (?, ?);";
             jdbcTemplate.update(querySql, filmId, userId);
@@ -185,7 +184,6 @@ public class FilmDbStorage implements FilmStorage {
     @Override
     public void deleteLike(long filmId, long userId) {
         Film film = getFilmById(filmId);
-        //UserDbStorage user = userStorage.getUserById(userId);
         String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
         jdbcTemplate.update(querySql, filmId, userId);
     }
