@@ -29,6 +29,6 @@ public class GenreService {
             log.warn("Значение жанра с id {} не найдено", id);
             throw new NotFoundException("Значение рейтинга не найдено");
         }
-        return genreStorage.getGenreById(id).orElseThrow();
+        return genreStorage.getGenreById(id);
     }
 }

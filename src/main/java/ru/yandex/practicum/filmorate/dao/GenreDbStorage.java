@@ -37,17 +37,17 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
-    public Optional<Genre> getGenreById(Integer id) {
+    public Genre getGenreById(Integer id) {
         String querySql = "SELECT * FROM GENRE WHERE GENRE_ID = ?";
         SqlRowSet genreRows = jdbcTemplate.queryForRowSet(querySql, id);
         if (genreRows.next()) {
             Genre genre = new Genre(genreRows.getInt("GENRE_ID"),
                     genreRows.getString("GENRE_NAME"));
             log.info("Найден жанр с id {}", id);
-            return Optional.of(genre);
+            return genre;
         }
         log.warn("Жанр с id {} не найден", id);
-        return Optional.empty();
+        return null;
     }
 
     private Genre rowToGenre(ResultSet rs, int rowNum) throws SQLException {
