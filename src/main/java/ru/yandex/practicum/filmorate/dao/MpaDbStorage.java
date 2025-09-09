@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -36,16 +35,16 @@ public class MpaDbStorage implements MpaStorage {
     }
 
     @Override
-    public Optional<Mpa> getMpaById(Integer id) {
+    public Mpa getMpaById(Integer id) {
         String sqlQuery = "SELECT * FROM MPA WHERE MPA_ID = ?";
         SqlRowSet mpaRows = jdbcTemplate.queryForRowSet(sqlQuery, id);
         if (mpaRows.next()) {
             Mpa mpa = new Mpa(mpaRows.getInt("MPA_ID"), mpaRows.getString("RATING"));
             log.info("Pейтинг с id {} найден", id);
-            return Optional.of(mpa);
+            return mpa;
         }
         log.warn("Рейтинг с id {} не найден", id);
-        return Optional.empty();
+        return null;
     }
 
     private Mpa rowToMpa(ResultSet rs, int rowNum) throws SQLException {

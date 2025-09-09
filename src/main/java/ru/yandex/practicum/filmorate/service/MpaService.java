@@ -25,7 +25,7 @@ public class MpaService {
             log.warn("Значение рейтинга с id {} не найдено", id);
             throw new ConditionsNotMetException("Значение рейтинга не найдено");
         }
-        return mpaStorage.getMpaById(id).orElseThrow();
+        return mpaStorage.getMpaById(id);
     }
 
     public Collection<Mpa> getAllMpa() {
