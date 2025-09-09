@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.GenreStorage;
 
@@ -26,7 +27,7 @@ public class GenreService {
     public Genre getGenreById(int id) {
         if (genreStorage.getGenreById(id) == null) {
             log.warn("Значение жанра с id {} не найдено", id);
-            throw new RuntimeException("Значение рейтинга не найдено");
+            throw new NotFoundException("Значение рейтинга не найдено");
         }
         return genreStorage.getGenreById(id).orElseThrow();
     }
