@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class GenreControllerTest {
+public class GenreDbControllerTest {
 
     private final GenreService genreService;
     private final GenreController genreController;
