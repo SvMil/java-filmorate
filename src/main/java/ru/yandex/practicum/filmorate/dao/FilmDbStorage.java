@@ -31,6 +31,15 @@ public class FilmDbStorage implements FilmStorage {
     private final JdbcTemplate jdbcTemplate;
     private final UserStorage userStorage;
 
+    protected Comparator<Genre> comparator = (genre1, genre2) -> {
+        if (genre1.getId()>genre2.getId()) {
+            return 1;
+        } else if (genre1.equals(genre2)) {
+            return 0;
+        }
+        return -1;
+    };
+
     @Autowired
     public FilmDbStorage(JdbcTemplate jdbcTemplate, @Qualifier("userDbStorage") UserStorage userStorage) {
         this.jdbcTemplate = jdbcTemplate;
@@ -57,18 +66,21 @@ public class FilmDbStorage implements FilmStorage {
         film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
 
         if (!film.getGenres().isEmpty()) {
-            Set<Genre> sortGenres = film.getGenres();
+            Set<Genre> sortGenres= film.getGenres();
             log.info("nosorted " + sortGenres.toString());
             System.out.println("nosorted " + sortGenres.toString());
-            sortGenres.stream().sorted();
+            sortGenres.stream().sorted(comparator);
             log.info("sorted " + sortGenres.toString());
             System.out.println("sorted " + sortGenres.toString());
             for (Genre genre : sortGenres) {
+                System.out.println("перебор в цикле create genre" + genre.toString());
                 jdbcTemplate.update(queryForFilmGenre, film.getId(), genre.getId());
             }
         }
         return getFilmById(film.getId());
     }
+
+
 
     @Override
     public Film update(Film film) {
