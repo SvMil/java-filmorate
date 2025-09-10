@@ -75,6 +75,9 @@ public class FilmService {
         if (userStorage.getUserById(userId) == null) {
             throw new NotFoundException("Пользователь не найден");
         }
+        if (filmStorage.getFilmById(filmId).getLikes().contains(userId)) {
+            throw new NotFoundException("Лайк пользователя уже был поставлен ранее");
+        }
         filmStorage.addLike(filmId, userId);
         log.info("Пользователь с id {} поставил фильму с id {} лайк", userId, filmId);
     }

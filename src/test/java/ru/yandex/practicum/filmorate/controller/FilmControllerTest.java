@@ -163,6 +163,8 @@ public class FilmControllerTest {
         filmController.addLike(film3.getId(),user4.getId());
         filmController.getTopFilms(4);
 
+
         System.out.println(filmController.getTopFilms(4));
+
     }
 }
