@@ -32,7 +32,7 @@ public class GenreService {
 
         if (genreStorage.getGenreById(id) == null) {
             log.warn("Значение жанра с id " + id +  " не найдено");
-            throw new NotFoundException("Значение жанра с id " + id +  " не найдено");
+            throw new NotFoundException("Значение жанра с id " + id +  " не найдено. Тип id" + id.getClass().getName());
         }
         return genreStorage.getGenreById(id);
     }
