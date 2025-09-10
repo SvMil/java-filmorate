@@ -193,4 +193,17 @@ public class FilmDbStorage implements FilmStorage {
 
         }
     }
+
+
+    public void deleteLike2(long filmId, long userId) {
+        Film film = getFilmById(filmId);
+        try {
+            String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
+            jdbcTemplate.update(querySql, filmId, userId);
+        } catch (NotFoundException e) {
+
+            log.warn("Лайка фильму с id {} от пользователя с id {} не существует", filmId, userId);
+
+        }
+    }
 }
