@@ -25,9 +25,14 @@ public class GenreService {
     }
 
     public Genre getGenreById(Integer id) {
+        System.out.println("id переданный в сервис " + id);
+        System.out.println("значение genreStorage.getGenreById(id) сервис ");
+        System.out.println(genreStorage.getGenreById(id));
+        System.out.println("окончание значения genreStorage.getGenreById(id) сервис ");
+
         if (genreStorage.getGenreById(id) == null) {
-            log.warn("Значение жанра с id {} не найдено", id);
-            throw new NotFoundException("Значение бла бла 2 рейтинга не найдено");
+            log.warn("Значение жанра с id " + id +  " не найдено");
+            throw new NotFoundException("Значение жанра с id " + id +  " не найдено");
         }
         return genreStorage.getGenreById(id);
     }
