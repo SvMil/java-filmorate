@@ -27,7 +27,7 @@ public class MpaController {
     }
 
     @GetMapping("/{id}")
-    public String getMpaById(Integer id) {
-        return mpaService.getMpaById(id).getName();
+    public Mpa getMpaById(Integer id) {
+        return mpaService.getMpaById(id);
     }
 }
