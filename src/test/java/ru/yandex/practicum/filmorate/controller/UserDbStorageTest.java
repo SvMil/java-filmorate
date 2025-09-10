@@ -84,7 +84,7 @@ class UserDbStorageTest {
         userDbStorage.addFriend(1L, 2L);
         userDbStorage.addFriend(4L, 2L);
         userDbStorage.addFriend(4L, 3L);
-        List <User> friends = userDbStorage.getCommonFriends(1L, 4L);
+        List<User> friends = userDbStorage.getCommonFriends(1L, 4L);
         assertEquals(1, friends.size());
         System.out.println(userDbStorage.getCommonFriends(1L, 4L));
         userDbStorage.addFriend(1L, 3L);
