@@ -77,4 +77,22 @@ class FilmDbStorageTest {
 
         System.out.println(userDbStorage.getUsers());
     }
+
+    @Test
+    void filmCreate() {
+        filmDbStorage.create(Film.builder().id(1L).name("Анора").description("Американская драма").duration(139)
+                .releaseDate(LocalDate.now()).mpa(new Mpa(1, "Драма")).build());
+        filmDbStorage.create(Film.builder().id(2L).name("Области тьмы").description("Триллер").duration(105)
+                .releaseDate(LocalDate.now()).mpa(new Mpa(1, "Триллер")).build());
+
+        filmDbStorage.addLike(1, 1);
+        filmDbStorage.addLike(2, 1);
+        filmDbStorage.addLike(2, 2);
+
+        System.out.println(filmDbStorage.getLikesOfFilm(2L));
+
+        System.out.println(filmDbStorage.getFilms());
+
+        System.out.println(userDbStorage.getUsers());
+    }
 }

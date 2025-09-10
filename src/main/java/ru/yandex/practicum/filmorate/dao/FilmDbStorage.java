@@ -58,7 +58,11 @@ public class FilmDbStorage implements FilmStorage {
 
         if (!film.getGenres().isEmpty()) {
             Set<Genre> sortGenres = film.getGenres();
+            log.info("nosorted " + sortGenres.toString());
+            System.out.println("nosorted " + sortGenres.toString());
             sortGenres.stream().sorted();
+            log.info("sorted " + sortGenres.toString());
+            System.out.println("sorted " + sortGenres.toString());
             for (Genre genre : sortGenres) {
                 jdbcTemplate.update(queryForFilmGenre, film.getId(), genre.getId());
             }
