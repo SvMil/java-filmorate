@@ -11,9 +11,11 @@ import ru.yandex.practicum.filmorate.dao.UserDbStorage;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @AutoConfigureTestDatabase
 @SpringBootTest
@@ -82,9 +84,14 @@ class UserDbStorageTest {
         userDbStorage.addFriend(1L, 2L);
         userDbStorage.addFriend(4L, 2L);
         userDbStorage.addFriend(4L, 3L);
+        List <User> friends = userDbStorage.getCommonFriends(1L, 4L);
+        assertEquals(1, friends.size());
         System.out.println(userDbStorage.getCommonFriends(1L, 4L));
+        userDbStorage.addFriend(1L, 3L);
+        friends = userDbStorage.getCommonFriends(1L, 4L);
+        assertEquals(2, friends.size());
         userDbStorage.deleteUser(2L);
-        System.out.println(userDbStorage.getCommonFriends(1L, 4L));
-
+        friends = userDbStorage.getCommonFriends(1L, 4L);
+        assertEquals(1, friends.size());
     }
 }

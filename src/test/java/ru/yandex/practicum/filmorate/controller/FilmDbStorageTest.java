@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.dao.UserDbStorage;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -51,11 +52,9 @@ class FilmDbStorageTest {
         filmDbStorage.addLike(2, 1);
         filmDbStorage.addLike(2, 2);
 
-        System.out.println(filmDbStorage.getLikesOfFilm(2L));
+        List<Integer> likes = filmDbStorage.getLikesOfFilm(2L);
+        assertEquals(2, likes.size());
 
-        System.out.println(filmDbStorage.getFilms());
-
-        System.out.println(userDbStorage.getUsers());
     }
 
     @Test
@@ -65,17 +64,9 @@ class FilmDbStorageTest {
         filmDbStorage.create(Film.builder().id(2L).name("Области тьмы").description("Триллер").duration(105)
                 .releaseDate(LocalDate.now()).mpa(new Mpa(1, "Триллер")).build());
 
-        filmDbStorage.addLike(1, 1);
-        filmDbStorage.addLike(2, 1);
-        filmDbStorage.addLike(2, 2);
+        Map<Long, Film> films = filmDbStorage.getFilms();
+        assertEquals(2, films.size());
 
-        List<Integer> likes = filmDbStorage.getLikesOfFilm(2L);
-        assertEquals(2, likes.size());
 
-        System.out.println(filmDbStorage.getLikesOfFilm(2L));
-
-        System.out.println(filmDbStorage.getFilms());
-
-        System.out.println(userDbStorage.getUsers());
     }
 }
