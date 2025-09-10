@@ -32,7 +32,7 @@ public class FilmDbStorage implements FilmStorage {
     private final UserStorage userStorage;
 
     protected Comparator<Genre> comparator = (genre1, genre2) -> {
-        if (genre1.getId()>genre2.getId()) {
+        if (genre1.getId() > genre2.getId()) {
             return 1;
         } else if (genre1.equals(genre2)) {
             return 0;
