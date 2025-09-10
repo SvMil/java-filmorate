@@ -10,7 +10,6 @@ import java.util.*;
 
 
 @Component("inMemoryFilmStorage")
-//@Primary
 public class InMemoryFilmStorage implements FilmStorage {
 
     private final UserStorage userStorage;
@@ -51,7 +50,6 @@ public class InMemoryFilmStorage implements FilmStorage {
             oldFilm.setDescription(newFilm.getDescription());
             oldFilm.setDuration(newFilm.getDuration());
             oldFilm.setReleaseDate(newFilm.getReleaseDate());
-            //oldFilm.setMpa(newFilm.getMpa());
             return oldFilm;
     }
 

@@ -8,5 +8,5 @@ import lombok.Data;
 public class FriendRequest {
     private Long idFriend1;
     private Long idFriend2;
-    private boolean approv;
+    private boolean isApproved;
 }
