@@ -36,7 +36,7 @@ public class GenreControllerTest {
 
     @Test
     public void findGenreByIdController() {
-        Genre genre = genreController.getGenreById(4 );
+        Genre genre = genreController.getGenreById(4);
 
         assertEquals("Триллер", genre.getName());
     }
