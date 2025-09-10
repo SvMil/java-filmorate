@@ -29,7 +29,7 @@ public class MpaControllerTest {
     @Test
     public void findMpaById() {
         Mpa mpa = mpaService.getMpaById(1);
-        System.out.println(mpa.getId());
+        System.out.println(mpa.getName());
 
         assertEquals("G", mpa.getName());
     }
