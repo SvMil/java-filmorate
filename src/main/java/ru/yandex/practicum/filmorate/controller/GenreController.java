@@ -24,6 +24,6 @@ public class GenreController {
 
     @GetMapping("/{id}")
     public String getGenreById(Integer id) {
-        return genreService.getGenreById(id);
+        return genreService.getGenreById(id).getName();
     }
 }

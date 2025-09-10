@@ -24,11 +24,11 @@ public class GenreService {
         return Collections.unmodifiableCollection(genreStorage.getAllGenres().values());
     }
 
-    public String getGenreById(Integer id) {
+    public Genre getGenreById(Integer id) {
         if (genreStorage.getGenreById(id) == null) {
             log.warn("Значение жанра с id {} не найдено", id);
             throw new NotFoundException("Значение рейтинга не найдено");
         }
-        return genreStorage.getGenreById(id).getName();
+        return genreStorage.getGenreById(id);
     }
 }
