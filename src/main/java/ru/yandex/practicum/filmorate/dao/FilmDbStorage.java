@@ -56,8 +56,11 @@ public class FilmDbStorage implements FilmStorage {
         }, keyHolder);
         film.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
 
+        Set<Genre> sortGenres = film.getGenres();
+        sortGenres.stream().sorted();
+
         if (!film.getGenres().isEmpty()) {
-            for (Genre genre : film.getGenres()) {
+            for (Genre genre : sortGenres) {
                 jdbcTemplate.update(queryForFilmGenre, film.getId(), genre.getId());
             }
         }
