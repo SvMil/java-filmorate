@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Import({MpaDbStorage.class})
-public class jMpaDbControllerTest {
+public class JdbcMpaDbControllerTest {
 
     private final MpaDbStorage mpaDbStorage;
 
