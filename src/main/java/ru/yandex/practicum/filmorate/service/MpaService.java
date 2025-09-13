@@ -19,13 +19,8 @@ public class MpaService {
     public Mpa getMpaById(Integer id) {
         if (mpaStorage.getMpaById(id) == null) {
             log.warn("Значение рейтинга с id {} не найдено", id);
-            throw new NotFoundException("Значение бла бла бла рейтинга не найдено");
+            throw new NotFoundException("Значение рейтинга не найдено");
         }
-        System.out.println("печать из MpaService");
-        System.out.println(mpaStorage.getMpaById(id));
-        System.out.println("печать имени рейтинга из MpaService");
-        System.out.println(mpaStorage.getMpaById(id).getName());
-        System.out.println("конец печати из MpaService");
         return mpaStorage.getMpaById(id);
     }
 
