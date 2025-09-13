@@ -32,6 +32,6 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleUnknownException(Throwable e) {
         log.error(e.getMessage());
-        return new ErrorResponse("Произошло исключение.");
+        return new ErrorResponse(e.getMessage());
     }
 }
