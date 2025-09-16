@@ -46,7 +46,6 @@ public class FilmDbStorage implements FilmStorage {
         this.userStorage = userStorage;
     }
 
-
     @Override
     public Film create(Film film) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -67,20 +66,13 @@ public class FilmDbStorage implements FilmStorage {
 
         if (!film.getGenres().isEmpty()) {
             Set<Genre> sortGenres = film.getGenres();
-            log.info("nosorted " + sortGenres.toString());
-            System.out.println("nosorted " + sortGenres.toString());
             sortGenres.stream().sorted(comparator);
-            log.info("sorted " + sortGenres.toString());
-            System.out.println("sorted " + sortGenres.toString());
             for (Genre genre : sortGenres) {
-                System.out.println("перебор в цикле create genre" + genre.toString());
                 jdbcTemplate.update(queryForFilmGenre, film.getId(), genre.getId());
             }
         }
         return getFilmById(film.getId());
     }
-
-
 
     @Override
     public Film update(Film film) {
@@ -100,6 +92,17 @@ public class FilmDbStorage implements FilmStorage {
         return getFilmById(film.getId());
     }
 
+    public int[] batchUpdate(final Set<Genre> genres, Film film) {
+        List<Object[]> batch = new ArrayList<Object[]>();
+        for (Genre genre : genres) {
+            Object[] values = new Object[] {
+                    film.getId(), genre.getId()};
+            batch.add(values);
+        }
+        return this.jdbcTemplate.batchUpdate(
+                "INSERT INTO FILM_GENRE (FILM_ID, GENRE_ID) VALUES (?, ?);",
+                batch);
+    }
 
     public void deleteFilm(long filmId) {
         Film film = getFilmById(filmId);
@@ -143,6 +146,14 @@ public class FilmDbStorage implements FilmStorage {
         List<Film> filmsFromDb = jdbcTemplate.query(querySql, this::rowToFilm);
         for (Film film : filmsFromDb) {
             films.put(film.getId(), film);
+            List<Genre> genresOfFilm = getGenresOfFilm(film.getId());
+            List<Integer> likes = getLikesOfFilm(film.getId());
+            for (Genre genre : genresOfFilm) {
+                film.getGenres().add(genre);
+            }
+            for (Integer like : likes) {
+                film.getLikes().add(Long.valueOf(like));
+            }
         }
         return films;
     }
@@ -188,6 +199,17 @@ public class FilmDbStorage implements FilmStorage {
         return jdbcTemplate.query(queryForFilmLikes, this::mapRowToLike, filmId);
     }
 
+    public List<Film> getFilmsSortedByLikes() {
+            String sql;
+                sql = "SELECT f.FILM_ID, f.NAME, f.DESCRIPTION, f.RELEASE_DATE, f.DURATION, f.MPA_ID, " +
+                        "r.RATING, count(fl.USER_ID) AS likes FROM FILM f \n" +
+                        "JOIN MPA r ON f.MPA_ID = r.MPA_ID \n" +
+                        "LEFT JOIN FILM_LIKE fl ON f.FILM_ID = fl.FILM_ID \n" +
+                        "GROUP BY f.FILM_ID \n" +
+                        "ORDER BY likes desc";
+                return jdbcTemplate.query(sql, this::rowToFilm);
+    }
+
     @Override
     public void addLike(long filmId, long userId) {
         Film film = getFilmById(filmId);
@@ -205,19 +227,6 @@ public class FilmDbStorage implements FilmStorage {
         try {
         String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
         jdbcTemplate.update(querySql, filmId, userId);
-        } catch (NotFoundException e) {
-
-            log.warn("Лайка фильму с id {} от пользователя с id {} не существует", filmId, userId);
-
-        }
-    }
-
-
-    public void deleteLike2(long filmId, long userId) {
-        Film film = getFilmById(filmId);
-        try {
-            String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
-            jdbcTemplate.update(querySql, filmId, userId);
         } catch (NotFoundException e) {
 
             log.warn("Лайка фильму с id {} от пользователя с id {} не существует", filmId, userId);
