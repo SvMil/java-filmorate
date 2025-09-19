@@ -147,7 +147,7 @@ public class FilmDbStorage implements FilmStorage {
     public Map<Long, Film> getFilms() {
         Map<Long, Film> films = new HashMap<>();
         String querySql = "SELECT F.*, M.RATING FROM FILM AS F JOIN MPA AS M ON F.MPA_ID = M.MPA_ID ";
-        List<Film> filmsFromDb = jdbcTemplate.query(querySql, this::rowToFilm2);
+        List<Film> filmsFromDb = jdbcTemplate.query(querySql, this::rowToFilm);
         loadGenresAndLikes(filmsFromDb);
         for (Film film : filmsFromDb) {
             films.put(film.getId(), film);
@@ -185,41 +185,7 @@ public class FilmDbStorage implements FilmStorage {
         });
     }
 
-
     private Film rowToFilm(ResultSet rs, int rowNum) throws SQLException {
-        log.info("Film build start>>>>>");
-        Film film = Film.builder()
-                .id(rs.getLong("FILM_ID"))
-                .name(rs.getString("NAME"))
-                .description(rs.getString("DESCRIPTION"))
-                .releaseDate(rs.getDate("RELEASE_DATE").toLocalDate())
-                .duration(rs.getInt("DURATION"))
-                .mpa(new Mpa(rs.getInt("MPA_ID"), rs.getString("RATING")))
-                .build();
-        log.info("Film = {}", film);
-        List<Genre> genresOfFilm = getGenresOfFilm(film.getId());
-        List<Integer> likes = getLikesOfFilm(film.getId());
-        for (Genre genre : genresOfFilm) {
-            film.getGenres().add(genre);
-        }
-        for (Integer like : likes) {
-            film.getLikes().add(Long.valueOf(like));
-        }
-        return film;
-    }
-
-    public Map<Long, Film> getFilms2() {
-        Map<Long, Film> films = new HashMap<>();
-        String querySql = "SELECT F.*, M.RATING FROM FILM AS F JOIN MPA AS M ON F.MPA_ID = M.MPA_ID ";
-        List<Film> filmsFromDb = jdbcTemplate.query(querySql, this::rowToFilm2);
-        loadGenresAndLikes(filmsFromDb);
-        for (Film film : filmsFromDb) {
-            films.put(film.getId(), film);
-        }
-        return films;
-    }
-
-    private Film rowToFilm2(ResultSet rs, int rowNum) throws SQLException {
         log.info("Film build start>>>>>");
         Film film = Film.builder()
                 .id(rs.getLong("FILM_ID"))
@@ -261,7 +227,7 @@ public class FilmDbStorage implements FilmStorage {
                         "GROUP BY f.FILM_ID \n" +
                         "ORDER BY likes desc";
 
-        List<Film> filmsFromDb = jdbcTemplate.query(sql, this::rowToFilm2);
+        List<Film> filmsFromDb = jdbcTemplate.query(sql, this::rowToFilm);
         loadGenresAndLikes(filmsFromDb);
         return filmsFromDb;
     }
