@@ -85,7 +85,7 @@ public class FilmDbStorage implements FilmStorage {
                 film.getMpa().getId(), film.getDuration(), film.getId());
         jdbcTemplate.update(queryToDeleteFilmGenres, film.getId());
         if (!film.getGenres().isEmpty()) {
-            batchUpdate(film.getGenres(),film);
+            batchUpdate(film.getGenres(), film);
         }
         return getFilmById(film.getId());
     }
@@ -93,7 +93,7 @@ public class FilmDbStorage implements FilmStorage {
     public int[] batchUpdate(final Set<Genre> genres, Film film) {
         List<Object[]> batch = new ArrayList<>();
         for (Genre genre : genres) {
-            Object[] values = new Object[] {
+            Object[] values = new Object[]{
                     film.getId(), genre.getId()};
             batch.add(values);
         }
@@ -212,13 +212,13 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public List<Film> getFilmsSortedByLikes() {
-            String sql;
-                sql = "SELECT f.FILM_ID, f.NAME, f.DESCRIPTION, f.RELEASE_DATE, f.DURATION, f.MPA_ID, " +
-                        "r.RATING, count(fl.USER_ID) AS likes FROM FILM f \n" +
-                        "JOIN MPA r ON f.MPA_ID = r.MPA_ID \n" +
-                        "LEFT JOIN FILM_LIKE fl ON f.FILM_ID = fl.FILM_ID \n" +
-                        "GROUP BY f.FILM_ID \n" +
-                        "ORDER BY likes desc";
+        String sql;
+        sql = "SELECT f.FILM_ID, f.NAME, f.DESCRIPTION, f.RELEASE_DATE, f.DURATION, f.MPA_ID, " +
+                "r.RATING, count(fl.USER_ID) AS likes FROM FILM f \n" +
+                "JOIN MPA r ON f.MPA_ID = r.MPA_ID \n" +
+                "LEFT JOIN FILM_LIKE fl ON f.FILM_ID = fl.FILM_ID \n" +
+                "GROUP BY f.FILM_ID \n" +
+                "ORDER BY likes desc";
 
         List<Film> filmsFromDb = jdbcTemplate.query(sql, this::rowToFilm);
         loadGenresAndLikes(filmsFromDb);
@@ -240,8 +240,8 @@ public class FilmDbStorage implements FilmStorage {
     public void deleteLike(long filmId, long userId) {
         Film film = getFilmById(filmId);
         try {
-        String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
-        jdbcTemplate.update(querySql, filmId, userId);
+            String querySql = "DELETE FROM FILM_LIKE WHERE FILM_ID = ? AND USER_ID = ?;";
+            jdbcTemplate.update(querySql, filmId, userId);
         } catch (NotFoundException e) {
 
             log.warn("Лайка фильму с id {} от пользователя с id {} не существует", filmId, userId);
