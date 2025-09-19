@@ -148,16 +148,6 @@ public class FilmDbStorage implements FilmStorage {
         List<Film> filmsFromDb = jdbcTemplate.query(querySql, this::rowToFilm);
         for (Film film : filmsFromDb) {
             films.put(film.getId(), film);
-           /* List<Genre> genresOfFilm = getGenresOfFilm(film.getId());
-            List<Integer> likes = getLikesOfFilm(film.getId());
-            for (Genre genre : genresOfFilm) {
-                film.getGenres().add(genre);
-            }
-            for (Integer like : likes) {
-                film.getLikes().add(Long.valueOf(like));
-            }
-
-            */
         }
         return films;
     }
