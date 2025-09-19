@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -17,6 +18,8 @@ public class FilmControllerTest {
 
     UserStorage userStorage = new InMemoryUserStorage();
     FilmStorage filmStorage = new InMemoryFilmStorage(userStorage);
+
+
     FilmService filmService = new FilmService(filmStorage, userStorage);
     FilmController filmController = new FilmController(filmService);
 
@@ -31,6 +34,22 @@ public class FilmControllerTest {
                 .description("Американская драма")
                 .duration(139)
                 .releaseDate(LocalDate.of(2024, 10, 3))
+                .build();
+        filmController.create(film);
+        System.out.println(filmController.getAllFilms());
+        System.out.println(filmController.getFilmById(film.getId()));
+    }
+
+    @Test
+    public void createFilmMpa() {
+        Mpa mpa = new Mpa(1,"PG-13");
+
+        Film film = Film.builder()
+                .name("Анора")
+                .description("Американская драма")
+                .duration(139)
+                .releaseDate(LocalDate.of(2024, 10, 3))
+                .mpa(mpa)
                 .build();
         filmController.create(film);
         System.out.println(filmController.getAllFilms());
@@ -144,6 +163,8 @@ public class FilmControllerTest {
         filmController.addLike(film3.getId(),user4.getId());
         filmController.getTopFilms(4);
 
+
         System.out.println(filmController.getTopFilms(4));
+
     }
 }
