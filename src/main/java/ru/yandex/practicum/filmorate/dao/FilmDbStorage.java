@@ -79,10 +79,15 @@ public class FilmDbStorage implements FilmStorage {
         String querySql = "UPDATE FILM SET NAME = ?, DESCRIPTION = ?, RELEASE_DATE = ?, MPA_ID = ?, DURATION = ?" +
                 " WHERE FILM_ID = ?;";
         String queryToDeleteFilmGenres = "DELETE FROM FILM_GENRE WHERE FILM_ID = ?;";
+        String queryForUpdateGenre = "INSERT INTO FILM_GENRE (FILM_ID, GENRE_ID) VALUES (?, ?);";
+
         jdbcTemplate.update(querySql, film.getName(), film.getDescription(), film.getReleaseDate(),
                 film.getMpa().getId(), film.getDuration(), film.getId());
         jdbcTemplate.update(queryToDeleteFilmGenres, film.getId());
         if (!film.getGenres().isEmpty()) {
+           // for (Genre genre : film.getGenres()) {
+           //     jdbcTemplate.update(queryForUpdateGenre, film.getId(), genre.getId());
+          //  }
             batchUpdate(film.getGenres(), film);
         }
         return getFilmById(film.getId());
