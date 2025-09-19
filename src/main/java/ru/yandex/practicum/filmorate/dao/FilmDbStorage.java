@@ -91,7 +91,7 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     public int[] batchUpdate(final Set<Genre> genres, Film film) {
-        List<Object[]> batch = new ArrayList<Object[]>();
+        List<Object[]> batch = new ArrayList<>();
         for (Genre genre : genres) {
             Object[] values = new Object[] {
                     film.getId(), genre.getId()};
